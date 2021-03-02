@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Cart from './Components/User/Cart/Cart';
+import User from './Components/User/User';
+import data from './fakeData/data.json';
 
 function App() {
+  const [user,setUser]= useState([]);
+  const [count,setCount] = useState([]);
+  useEffect(() =>{
+    setUser(data);
+  },[])
+
+  const handleAdd = (id) =>{
+    const newCount = [...count,id];
+    setCount(newCount);
+  }
   return (
     <div className="App">
+      
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      {
+            user.map(person => <User id={person} handleAdd={handleAdd}></User>)
+      }
       </header>
+      
+      <div className="cart-container">
+        <Cart count={count}></Cart>
+
+      </div>
     </div>
   );
 }
